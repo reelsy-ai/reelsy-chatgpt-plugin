@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "reelsy": {
+      "type": "http",
+      "http_headers": {
+        "x-reelsy-mcp-surface": "codex"
+      },
+      "oauth_resource": "http://localhost:3000/api/codex/mcp",
+      "url": "http://localhost:3000/api/codex/mcp"
+    }
+  }
+}
