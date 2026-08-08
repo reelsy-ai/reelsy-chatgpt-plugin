@@ -1,7 +1,7 @@
 {
   "name": "reelsy-video",
-  "version": "0.1.0+codex.20260804091600",
-  "description": "\u901a\u8fc7\u4e3b\u670d\u52a1 OAuth MCP \u5c06 Codex \u8fde\u63a5\u5230\u5f53\u524d\u767b\u5f55\u7528\u6237\u62e5\u6709\u7684 Reelsy \u89c6\u9891\u9879\u76ee\u3002",
+  "version": "0.2.0+codex.20260804233000",
+  "description": "\u901a\u8fc7\u4e3b\u670d\u52a1 OAuth MCP \u548c Codex \u672c\u5730 FFmpeg \u5b8c\u6210 Reelsy \u89c6\u9891\u751f\u6210\u3001Timeline \u4e0e Final \u53d1\u5e03\u3002",
   "author": {
     "name": "Reelsy",
     "url": "https://reelsy.ai"
@@ -15,7 +15,7 @@
   ],
   "interface": {
     "displayName": "Reelsy Video",
-    "shortDescription": "\u4ece Codex \u521b\u5efa\u5e76\u6253\u5f00 Reelsy \u89c6\u9891\u9879\u76ee",
+    "shortDescription": "\u4ece Codex \u751f\u6210\u5e76\u5b8c\u6210 Reelsy \u89c6\u9891",
     "longDescription": "\u901a\u8fc7 Reelsy \u4e3b\u670d\u52a1\u7684 Codex MCP \u8def\u7531\u8fde\u63a5\u89c6\u9891\u9879\u76ee\u3002\u5b89\u88c5\u540e\u4f7f\u7528\u6d4f\u89c8\u5668\u767b\u5f55 Reelsy \u5e76\u660e\u786e\u6388\u6743\uff0c\u652f\u6301\u5217\u51fa\u3001\u521b\u5efa\u3001\u8bfb\u53d6\u548c\u6253\u5f00\u5f53\u524d\u7528\u6237\u62e5\u6709\u7684\u9879\u76ee\uff0c\u4e0d\u6539\u53d8\u5386\u53f2 MCP \u6216\u73b0\u6709 Flue Agent\u3002",
     "developerName": "Reelsy",
     "category": "Design",
@@ -27,7 +27,8 @@
     "defaultPrompt": [
       "\u521b\u5efa\u4e00\u4e2a\u65b0\u7684 Reelsy \u89c6\u9891\u9879\u76ee",
       "\u5217\u51fa\u6211\u6700\u8fd1\u7684 Reelsy \u9879\u76ee",
-      "\u6253\u5f00\u6211\u6700\u65b0\u7684 Reelsy \u89c6\u9891\u9879\u76ee"
+      "\u6253\u5f00\u6211\u6700\u65b0\u7684 Reelsy \u89c6\u9891\u9879\u76ee",
+      "\u4f7f\u7528 Reelsy \u751f\u6210\u4e24\u6bb5\u89c6\u9891\u5e76\u5408\u6210\u6700\u7ec8\u6210\u7247"
     ],
     "brandColor": "#111827"
   },

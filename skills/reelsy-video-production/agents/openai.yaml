@@ -1,0 +1,7 @@
+interface:
+  display_name: "Reelsy Video Production"
+  short_description: "Generate two clips and compose a playable Reelsy Final"
+  default_prompt: "Use $reelsy-video-production to generate a two-clip Reelsy AI video and publish a playable Final."
+
+policy:
+  allow_implicit_invocation: true
