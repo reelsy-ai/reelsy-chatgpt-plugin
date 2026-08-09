@@ -1,36 +1,41 @@
 ---
 name: reelsy-video-production
-description: "Complete a two-clip AI video production loop through Reelsy MCP. Use when a user asks Codex to generate, recreate, or finish a Reelsy video: validate the Production Plan, submit two paid video clips after confirmation, choose an optional Soundtrack, create the Timeline, compose locally with FFmpeg, upload the result, and publish a playable Final."
+description: "Generate one or more AI video assets through Reelsy and produce the first playable project timeline and Final. Use when a user asks to create, generate, recreate, or finish a video and new paid media must be produced. Choose the fewest valid clips for the requested duration and story; never assume exactly two clips."
 ---
 
 # Reelsy Video Production
 
 ## Boundaries
 
-- Treat a playable Final as the default completion condition. Do not turn Canvas, internal schemas, or review nodes into production gates.
-- Show the estimated credit cost and obtain explicit confirmation before paid generation. Reuse the original business `idempotencyKey` when retrying.
-- Run FFmpeg only on the Codex host. Reelsy owns Provider access, Project facts, R2 import, Timeline, Final, and Canvas projection; it does not perform composition compute.
-- Default to `native_only` and preserve clip audio. Mix music only when the Timeline accepts a licensed library track, a user-uploaded track with confirmed rights, or generated music whose credit cost was explicitly approved.
-- Never use a fake Provider, fake URL, or manually fabricated success state.
+- Treat a playable Timeline and Final as the completion condition. Internal plans, schemas, and review nodes are not user-facing gates.
+- Show the estimated credit cost and obtain explicit confirmation before paid generation. Reuse stable business idempotency keys on retry.
+- Preserve every successful target. Retry only failed or missing targets.
+- Run FFmpeg only on the Codex host. Reelsy owns provider access, Project facts, media imports, Timeline revisions, Final publication, and Canvas projection.
+- Never fabricate provider results, URLs, probes, credits, or success states.
 
 ## Workflow
 
-1. Read the Project snapshot. Require one ready `production_plan` with exactly two valid clip targets.
-2. If either target is missing, show the generation cost and obtain confirmation. Then call `submit_reelsy_generation` separately for both targets, using stable and distinct `idempotencyKey` values.
-3. Query both Jobs with `get_reelsy_job_status`. If one target fails, retry only that target and preserve the successful clip.
-4. After both `generated_clip` artifacts are ready, call `submit_reelsy_composition`. Use `native_only` unless the user explicitly requested a valid Soundtrack.
-5. Read clip URLs, order, trims, canvas, FPS, and the optional Soundtrack from the returned `media_editor_project`. Download them into a local temporary directory.
-6. Write a `reelsy_local_composition_request_v1` JSON file and run:
+1. Use `list_reelsy_projects`, `create_reelsy_project`, or `read_reelsy_project_snapshot` to resolve the owner-scoped Project. Get its visible handoff with `get_reelsy_project_url` and open the Canvas in the Codex in-app browser.
+2. Import and inspect user media with `create_reelsy_media_import` and `inspect_reelsy_asset` when required. Use returned Artifacts as evidence; do not invent unseen product, identity, motion, or narrative facts.
+3. Convert the request or active Domain Skill result into a compact production intent: objective, aspect ratio, target duration, continuity anchors, ordered beats, audio policy, and completion criteria. Reuse a `production_plan` returned by `submit_reelsy_analysis` for source-grounded work; otherwise create a zero-credit direct plan with `create_reelsy_production_plan`.
+4. Pack adjacent beats into the fewest clips that the selected provider can execute without breaking scene, subject, wardrobe, product, time, or camera continuity. One clip is valid; two clips are common; longer videos may require more.
+5. Estimate paid generation from the actual targets and ask for confirmation. Then call `submit_reelsy_generation` once per target with stable, distinct idempotency keys.
+6. Poll each Job with `get_reelsy_job_status`. Preserve ready `generated_clip` Artifacts and retry only failed targets.
+7. Call `submit_reelsy_composition` with every ready clip in narrative order. Default to `native_only`; use music only when it is licensed or user-owned and requested.
+8. Follow `$reelsy-video-editing` when the request needs captions, titles, stickers, visualizers, overlays, transitions, filters, music, trimming, or revision work.
+9. For a requested Final, download the current Timeline media, run `scripts/compose_timeline.py` with a `reelsy_local_composition_request_v1` manifest, upload the rendered file with `create_reelsy_media_import`, inspect it, and call `publish_reelsy_final`.
+10. Read the Project snapshot again and verify the ready Final, Timeline revision, relations, and playable Canvas output.
 
-   ```bash
-   python3 scripts/compose_timeline.py --request /absolute/path/request.json
-   ```
+## Clip Packing Rules
 
-7. Read the script's result manifest. Never infer SHA256, duration, dimensions, or FPS from free-form logs.
-8. Upload the local Final with `create_reelsy_media_import`, then call `inspect_reelsy_asset`. Pass the manifest's `sha256/durationMs/width/height/fps/codec/hasAudio/toolVersion` fields unchanged as the probe.
-9. Call `publish_reelsy_final` with the Timeline Artifact and the uploaded composed-video Artifact. Read the Project snapshot again and verify that it contains one ready `final_video` and its `assembled_into` relations.
+- Split on a real continuity boundary, not merely because the analysis contains another beat.
+- Prefer exact text, prices, logos, captions, CTAs, stickers, and visual treatments as Editing layers rather than extra paid video targets.
+- Do not merge unrelated scenes or incompatible identity states to reduce cost.
+- Keep successful generated clips immutable when an Editing-only request follows.
 
-## Local Composition Request
+## Local Composition
+
+The request manifest accepts one or more ordered clips:
 
 ```json
 {
@@ -39,28 +44,10 @@ description: "Complete a two-clip AI video production loop through Reelsy MCP. U
   "canvas": { "width": 480, "height": 854 },
   "fps": 30,
   "clips": [
-    { "path": "/absolute/path/clip-1.mp4", "trimStartMs": 0, "durationMs": 8000 },
-    { "path": "/absolute/path/clip-2.mp4", "trimStartMs": 0, "durationMs": 8000 }
+    { "path": "/absolute/path/clip-1.mp4", "trimStartMs": 0, "durationMs": 8000 }
   ],
   "soundtrack": null
 }
 ```
 
-For an accepted Soundtrack, use:
-
-```json
-{
-  "path": "/absolute/path/music.mp3",
-  "volume": 0.25
-}
-```
-
-The script normalizes canvas size and FPS, emits H.264/AAC, and inserts silence when a generated clip has no audio stream. Therefore `native_only` does not fail merely because one clip is silent.
-
-## Failure Rules
-
-- Provider failure: preserve every successful target and report only the failed Job's public error.
-- Soundtrack rejected by Timeline: fall back to `native_only` unless the user asks to fix licensing first.
-- Local FFmpeg failure: do not upload and do not call `publish_reelsy_final`; correct the local inputs and rerun the script.
-- Upload or publish failure: reuse the existing local Final and business idempotency key; do not regenerate clips.
-- Final duration differs from Timeline by more than one second: treat it as a local composition error and do not publish.
+Never upload after a failed local render. Reject a Final whose duration differs from the Timeline by more than one second.

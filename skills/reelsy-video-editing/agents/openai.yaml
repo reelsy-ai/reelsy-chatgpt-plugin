@@ -1,0 +1,7 @@
+interface:
+  display_name: "Reelsy Video Editing"
+  short_description: "Edit and revise Reelsy timelines"
+  default_prompt: "Use $reelsy-video-editing to edit an existing Reelsy project and save a new revision."
+
+policy:
+  allow_implicit_invocation: true

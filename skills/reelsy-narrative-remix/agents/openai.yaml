@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reelsy Narrative Remix"
+  short_description: "Remix source-video narrative structure"
+  default_prompt: "Use $reelsy-narrative-remix to recreate a source video narrative structure in Reelsy."

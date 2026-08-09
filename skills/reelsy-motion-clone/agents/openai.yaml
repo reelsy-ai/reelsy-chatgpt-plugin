@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reelsy Motion Clone"
+  short_description: "Transfer motion from a reference video"
+  default_prompt: "Use $reelsy-motion-clone to reproduce motion rhythm with a new subject in Reelsy."
