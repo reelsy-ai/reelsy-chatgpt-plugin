@@ -16,9 +16,12 @@ description: "Plan evidence-grounded ecommerce product videos for Reelsy. Use wh
 
 ## Capability Routing
 
+- Let the selected Foundation Skill own Connector authorization, Project resolution, and the exact Canvas or Hosted OpenCut handoff. Never open or construct a generic Reelsy Agent URL from this Domain Skill.
 - Use `$reelsy-video-production` when new video or image assets are required.
-- Use `$reelsy-video-editing` for product titles, prices, badges, captions, stickers, overlays, music, transitions, trims, ordering, and revised Finals.
-- Use both when producing a new campaign-ready video.
+- A single ready video with no requested deterministic edits is complete when it is visible on the Canvas.
+- Use `$reelsy-video-editing` for requested product titles, prices, badges, captions, stickers, overlays, music, transitions, trims, ordering, or combination.
+- When Production returns multiple clips and the user did not already request one combined video, show every clip on the Canvas and ask whether to keep them separate or combine them in Hosted OpenCut.
+- Use both without another confirmation only when the original request already asked for generated media plus editing or combination.
 
 ## Quality Rules
 

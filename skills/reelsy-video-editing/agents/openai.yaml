@@ -1,7 +1,7 @@
 interface:
   display_name: "Reelsy Video Editing"
-  short_description: "Edit and revise Reelsy timelines"
-  default_prompt: "Use $reelsy-video-editing to edit an existing Reelsy project and save a new revision."
+  short_description: "Edit confirmed projects in Hosted OpenCut"
+  default_prompt: "Use $reelsy-video-editing to edit a confirmed Reelsy project in Hosted OpenCut and save a new Timeline revision."
 
 policy:
   allow_implicit_invocation: true

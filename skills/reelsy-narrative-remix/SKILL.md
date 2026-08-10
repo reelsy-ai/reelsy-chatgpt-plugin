@@ -18,9 +18,12 @@ description: "Analyze a source video's observed roles, world rules, causal event
 
 ## Capability Routing
 
+- Let the selected Foundation Skill own Connector authorization, Project resolution, and the exact Canvas or Hosted OpenCut handoff. Never open or construct a generic Reelsy Agent URL from this Domain Skill.
 - Use `$reelsy-video-production` for the adapted production clips.
-- Use `$reelsy-video-editing` for the narrative assembly, captions, titles, overlays, visualizers, music, transitions, trims, and Final branch.
-- Use Editing alone when remixing supplied footage without new paid generation.
+- Use `$reelsy-video-editing` for a requested or confirmed narrative assembly, captions, titles, overlays, visualizers, music, transitions, trims, ordering, or combination.
+- Multiple narrative clips remain complete Canvas results when the user requested assets rather than one assembled video. Ask whether to keep them separate or combine them in Hosted OpenCut when the original request is ambiguous.
+- Continue directly to Editing without another confirmation when the original request explicitly asked for one complete assembled story.
+- Use Editing alone when remixing supplied footage without new paid generation and the user requested an edited result.
 
 ## Quality Rules
 

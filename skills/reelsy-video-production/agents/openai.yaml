@@ -1,7 +1,7 @@
 interface:
   display_name: "Reelsy Video Production"
-  short_description: "Generate the fewest valid clips and publish a playable Final"
-  default_prompt: "Use $reelsy-video-production to generate a Reelsy AI video with the fewest valid clips and publish a playable Final."
+  short_description: "Generate the fewest valid clips for the Canvas"
+  default_prompt: "Use $reelsy-video-production to generate the fewest valid Reelsy clips and show the ready results on the Canvas."
 
 policy:
   allow_implicit_invocation: true

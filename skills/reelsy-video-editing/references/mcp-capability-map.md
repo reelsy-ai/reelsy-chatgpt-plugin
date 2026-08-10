@@ -8,6 +8,7 @@
 | Read current Timeline and revision | `read_reelsy_timeline` |
 | List immutable revisions | `list_reelsy_timeline_revisions` |
 | Get the visible Hosted OpenCut handoff | `get_reelsy_editor_url` |
+| Create the first editable Timeline after confirmed combination | `submit_reelsy_composition` |
 | Discover caption presets and fonts | `list_reelsy_caption_styles` |
 | Discover ordinary text styles | `list_reelsy_text_styles` |
 | Discover stickers, overlays, visualizers, transitions, and filters | `list_reelsy_editor_visual_catalog` |
@@ -57,4 +58,5 @@ Use `list_reelsy_editor_sessions` to choose a live owner-scoped browser session,
 - Music must use a registered owner-scoped Artifact with valid rights metadata.
 - Local paths never enter Reelsy MCP. Upload a completed local file through the media import flow.
 - `set_keyframes` currently accepts numeric channels only. Text and background color animation remains a UI-only capability until the public media contract supports typed color keyframes.
-- The bundled Codex-local composition script currently bakes ordered clips and an optional soundtrack only. Timeline text, captions, stickers, transitions, filters, overlays, and visualizers remain persistent and visible in Hosted OpenCut, but must not be described as present in a published Final until a renderer that consumes those layers is used.
+- Ready generated clips remain separate Canvas Artifacts unless the user requests or confirms editing or combination. Multiple clips alone are not permission to create a Timeline.
+- Hosted OpenCut owns preview and browser export for edited projects. A downloaded export remains local; do not upload it, call `publish_reelsy_final`, or create a Canvas Final Artifact.

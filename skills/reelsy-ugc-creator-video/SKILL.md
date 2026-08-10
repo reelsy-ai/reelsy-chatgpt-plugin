@@ -16,9 +16,13 @@ description: "Plan authentic creator-style UGC videos for Reelsy. Use for selfie
 
 ## Capability Routing
 
+- Let the selected Foundation Skill own Connector authorization, Project resolution, and the exact Canvas or Hosted OpenCut handoff. Never open or construct a generic Reelsy Agent URL from this Domain Skill.
 - Use `$reelsy-video-production` for new creator footage, product interaction shots, or supporting B-roll.
-- Use `$reelsy-video-editing` for trims, pacing, captions, active-word styles, titles, stickers, sound effects, music, overlays, and Final revisions.
+- A single ready creator video with no requested deterministic edits is complete when it is visible on the Canvas.
+- Use `$reelsy-video-editing` for requested trims, pacing, captions, active-word styles, titles, stickers, sound effects, music, overlays, ordering, or combination.
 - Use Editing alone when the user supplies enough existing footage.
+- When Production returns multiple clips and the user did not already request one combined video, show every clip on the Canvas and ask whether to keep them separate or combine them in Hosted OpenCut.
+- Use Production and Editing without another confirmation only when the original request already asked for both generated media and an edited or combined result.
 
 ## Quality Rules
 

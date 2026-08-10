@@ -1,7 +1,7 @@
 {
   "name": "reelsy-video",
-  "version": "0.3.0+codex.20260809",
-  "description": "Create and edit Reelsy videos through the main-service OAuth MCP, Hosted OpenCut Canvas, and Codex-local FFmpeg.",
+  "version": "0.4.1",
+  "description": "Create Canvas-visible Reelsy video assets and edit confirmed projects through the production OAuth MCP and Hosted OpenCut.",
   "author": {
     "name": "Reelsy",
     "url": "https://reelsy.ai"
@@ -10,13 +10,14 @@
   "keywords": [
     "reelsy",
     "video",
+    "chatgpt",
     "mcp",
     "codex"
   ],
   "interface": {
-    "displayName": "Reelsy Video",
-    "shortDescription": "Create and edit Reelsy videos from Codex",
-    "longDescription": "Connect Codex to owner-scoped Reelsy projects through the main-service OAuth MCP. Generate the fewest valid video clips, edit Hosted OpenCut timelines, use managed media catalogs, compose locally, and publish playable Final revisions without changing the existing Flue Agent.",
+    "displayName": "Reelsy for ChatGPT",
+    "shortDescription": "Create and edit Reelsy videos from ChatGPT",
+    "longDescription": "Connect ChatGPT to owner-scoped Reelsy projects through the production OAuth MCP. Show generated clips on the Canvas by default, and use Hosted OpenCut only when the user requests or confirms editing, combination, or export preparation. OpenCut browser exports remain local and do not create Canvas Final Artifacts.",
     "developerName": "Reelsy",
     "category": "Design",
     "capabilities": [
@@ -26,8 +27,6 @@
     "websiteURL": "https://reelsy.ai",
     "defaultPrompt": [
       "Create a new Reelsy video project",
-      "List my recent Reelsy projects",
-      "Open my latest Reelsy video project",
       "Generate a Reelsy video with the fewest valid clips",
       "Edit my Reelsy timeline with captions and visual layers"
     ],

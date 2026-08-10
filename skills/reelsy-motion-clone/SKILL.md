@@ -19,8 +19,11 @@ description: "Analyze movement and camera trajectories from a reference video an
 
 ## Capability Routing
 
+- Let the selected Foundation Skill own Connector authorization, Project resolution, and the exact Canvas or Hosted OpenCut handoff. Never open or construct a generic Reelsy Agent URL from this Domain Skill.
 - Use `$reelsy-video-production` to generate the motion-guided footage with the fewest continuous clips.
-- Use `$reelsy-video-editing` for trims, speed-neutral pacing adjustments, captions, titles, music, sound effects, overlays, and a revised Final.
+- A single ready motion video with no requested deterministic edits is complete when it is visible on the Canvas.
+- Use `$reelsy-video-editing` for requested trims, speed-neutral pacing adjustments, captions, titles, music, sound effects, overlays, ordering, or combination.
+- When Production returns multiple clips and the user did not already request one combined video, show every clip on the Canvas and ask whether to keep them separate or combine them in Hosted OpenCut.
 - For a new identity using the same motion, reuse the existing trusted motion analysis and generate only the new branch.
 
 ## Quality Rules
