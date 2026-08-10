@@ -1,0 +1,36 @@
+{
+  "name": "reelsy-video",
+  "version": "0.4.0",
+  "description": "Create Canvas-visible Reelsy video assets and edit confirmed projects through the production OAuth MCP and Hosted OpenCut.",
+  "author": {
+    "name": "Reelsy",
+    "url": "https://reelsy.ai"
+  },
+  "homepage": "https://reelsy.ai",
+  "keywords": [
+    "reelsy",
+    "video",
+    "chatgpt",
+    "mcp",
+    "codex"
+  ],
+  "interface": {
+    "displayName": "Reelsy for ChatGPT",
+    "shortDescription": "Create and edit Reelsy videos from ChatGPT",
+    "longDescription": "Connect ChatGPT to owner-scoped Reelsy projects through the production OAuth MCP. Show generated clips on the Canvas by default, and use Hosted OpenCut only when the user requests or confirms editing, combination, or export preparation. OpenCut browser exports remain local and do not create Canvas Final Artifacts.",
+    "developerName": "Reelsy",
+    "category": "Design",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://reelsy.ai",
+    "defaultPrompt": [
+      "Create a new Reelsy video project",
+      "Generate a Reelsy video with the fewest valid clips",
+      "Edit my Reelsy timeline with captions and visual layers"
+    ],
+    "brandColor": "#111827"
+  },
+  "mcpServers": "./.mcp.json"
+}

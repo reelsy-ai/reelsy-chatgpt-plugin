@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reelsy Ecommerce Video"
+  short_description: "Plan product-focused ecommerce videos"
+  default_prompt: "Use $reelsy-ecommerce-product-ad to create a product-focused Reelsy video."

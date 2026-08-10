@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "reelsy": {
+      "type": "http",
+      "http_headers": {
+        "x-reelsy-mcp-surface": "codex"
+      },
+      "oauth_resource": "https://reelsy.ai/api/codex/mcp",
+      "url": "https://reelsy.ai/api/codex/mcp"
+    }
+  }
+}

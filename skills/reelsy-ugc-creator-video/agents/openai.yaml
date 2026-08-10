@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reelsy UGC Video"
+  short_description: "Plan authentic creator-style videos"
+  default_prompt: "Use $reelsy-ugc-creator-video to create an authentic creator-style Reelsy video."
