@@ -34,7 +34,19 @@ skills/reelsy-narrative-remix
 
 ## Get started
 
-Copy the following prompt into a task in ChatGPT Desktop:
+### Add from GitHub
+
+In ChatGPT Desktop, open **Plugins**, choose **Add**, and select **Add plugin marketplace**. Use the repository below, keep the Git ref as `main`, and leave **Sparse paths** empty:
+
+```text
+https://github.com/reelsy-ai/reelsy-chatgpt-plugin
+```
+
+The repository includes a Marketplace manifest at `.agents/plugins/marketplace.json`. It points to the root Plugin package, so do not enter `plugins/codex` or another sparse path.
+
+If your host only exposes the single-plugin installer, use **Add plugin** with the same repository URL and leave the ref/path fields at their defaults.
+
+After installation, copy the following prompt into a new task in ChatGPT Desktop:
 
 ```text
 /goal Read reelsy.ai/chatgpt to install the Reelsy plugin, connect my Reelsy account, and start a new video creation task for me.
