@@ -1,0 +1,20 @@
+{
+  "name": "reelsy-ai",
+  "interface": {
+    "displayName": "Reelsy AI"
+  },
+  "plugins": [
+    {
+      "name": "reelsy-video",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Video"
+    }
+  ]
+}
