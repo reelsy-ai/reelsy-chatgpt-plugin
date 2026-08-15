@@ -1,7 +1,7 @@
 {
   "name": "reelsy-video",
-  "version": "0.4.2",
-  "description": "Create Canvas-visible Reelsy video and music assets, then edit confirmed projects through the production OAuth MCP and Hosted OpenCut.",
+  "version": "0.4.4",
+  "description": "Create Canvas-visible Reelsy videos and owner-scoped vocal or instrumental music, then let Codex complete the requested editing workflow.",
   "author": {
     "name": "Reelsy",
     "url": "https://reelsy.ai"
@@ -17,7 +17,7 @@
   "interface": {
     "displayName": "Reelsy for ChatGPT",
     "shortDescription": "Create and edit Reelsy videos from ChatGPT",
-    "longDescription": "Connect ChatGPT to owner-scoped Reelsy projects through the production OAuth MCP. Generate video or instrumental music only after explicit cost confirmation, show ready assets on the Canvas, and use Hosted OpenCut when the user requests or confirms editing, combination, or export preparation. OpenCut browser exports remain local and do not create Canvas Final Artifacts.",
+    "longDescription": "Connect ChatGPT to owner-scoped Reelsy projects through the production OAuth MCP. Reelsy performs paid video and music generation with explicit cost confirmation, including vocal-song generation and source-audio song rewriting. Codex remains responsible for source analysis, lyric rewriting, captions, and final editing. OpenCut browser exports remain local and do not create Canvas Final Artifacts.",
     "developerName": "Reelsy",
     "category": "Design",
     "capabilities": [
@@ -26,9 +26,8 @@
     ],
     "websiteURL": "https://reelsy.ai",
     "defaultPrompt": [
-      "Create a new Reelsy video project",
       "Generate a Reelsy video with the fewest valid clips",
-      "Generate instrumental music for my Reelsy project",
+      "Rewrite the song in my video with new approved lyrics",
       "Edit my Reelsy timeline with captions and visual layers"
     ],
     "brandColor": "#111827"

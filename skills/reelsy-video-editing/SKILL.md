@@ -20,6 +20,7 @@ description: "Edit a Reelsy video project through Hosted OpenCut and owner-scope
 - Never regenerate a successful video for a Timeline-only change.
 - Use one `apply_reelsy_timeline_transaction` call for each coherent atomic edit and include the latest `expectedRevision` plus a stable `idempotencyKey`.
 - Query managed catalogs before using font, text style, sticker, effect, transition, filter, or licensed music IDs. Never invent IDs or remote asset URLs. Generated music must come from a ready owner-scoped `background_music` Artifact.
+- Route lyric-bearing song generation or source-melody rewriting to `$reelsy-song-rewrite`. This Editing Skill keeps only the legacy instrumental soundtrack path and must not ask Reelsy to analyze, rewrite, subtitle, or edit a song.
 - Let Hosted OpenCut render and download the edited project. Do not upload that export, call `publish_reelsy_final`, or write a new Final Artifact back to the Canvas.
 
 ## New User Onboarding
@@ -39,7 +40,7 @@ description: "Edit a Reelsy video project through Hosted OpenCut and owner-scope
    - `list_reelsy_text_styles` for titles, subtitles, lower thirds, offers, badges, quotes, and end cards.
    - `list_reelsy_editor_visual_catalog` for stickers, Atmosphere overlays, audio visualizers, transitions, and filters.
    - `list_reelsy_music` or `list_reelsy_music_library` for licensed audio.
-   - `submit_reelsy_music_generation` for a new instrumental soundtrack. Show the fixed 12-credit cost and wait for explicit confirmation for this generation before calling it. Reuse one stable `idempotencyKey`, poll only with `get_reelsy_job_status`, and use the ready `background_music` Artifact; do not create a Production Plan or call video generation for this request.
+   - `submit_reelsy_music_generation` with `mode="instrumental"` only for a legacy instrumental soundtrack. Show the fixed 12-credit cost and wait for explicit confirmation for this generation before calling it. Reuse one stable `idempotencyKey`, poll only with `get_reelsy_job_status`, and use the ready `background_music` Artifact. Use `$reelsy-song-rewrite` instead when lyrics or a source melody are involved.
    - `create_reelsy_media_import` and `inspect_reelsy_asset` when a local file must become a trusted Project Asset.
    - `submit_reelsy_analysis` and `get_reelsy_job_status` when speech-aligned captions require a trusted transcript from an existing video or audio Artifact.
 5. If a generated soundtrack was requested and is ready, attach its Artifact with `attach_reelsy_soundtrack` using `mode="generated"`; this is a Timeline edit and must reuse the latest Timeline revision. Then build the remaining minimal command batch. Omit `trackId` on inserts when automatic compatible-track placement is preferred; provide it only after reading the Timeline and intentionally targeting that track. Use `copy_reelsy_timeline_selection` followed by `paste_reelsy_timeline_selection` for persistent clipboard semantics.
