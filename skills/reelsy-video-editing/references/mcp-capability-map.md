@@ -14,6 +14,8 @@
 | Discover stickers, overlays, visualizers, transitions, and filters | `list_reelsy_editor_visual_catalog` |
 | Discover Project music | `list_reelsy_music` |
 | Discover licensed library music | `list_reelsy_music_library` |
+| Generate an owner-scoped instrumental soundtrack after explicit 12-credit confirmation | `submit_reelsy_music_generation`, then `get_reelsy_job_status` |
+| Attach a ready licensed, uploaded, or generated soundtrack | `attach_reelsy_soundtrack` |
 | Inspect deterministic frame structure | `render_reelsy_timeline_frames` |
 | Import a local media or font file | `create_reelsy_media_import`, then `inspect_reelsy_asset` |
 | Produce a trusted transcript for timed captions | `submit_reelsy_analysis`, then `get_reelsy_job_status` and `read_reelsy_project_snapshot` |
@@ -55,7 +57,8 @@ Use `list_reelsy_editor_sessions` to choose a live owner-scoped browser session,
 
 - Fonts must use a managed font ID or an owner-scoped `source_font` Artifact.
 - Stickers, effects, transitions, and filters must use IDs and parameters returned by the visual catalog.
-- Music must use a registered owner-scoped Artifact with valid rights metadata.
+- Licensed and uploaded music must use a registered owner-scoped Artifact with valid rights metadata. Generated music must use the ready owner-scoped `background_music` Artifact returned by the music Job; never pass a Provider URL or task ID into the Timeline.
+- A generated soundtrack costs 12 credits. Display the cost and obtain explicit confirmation for that generation before submission; polling and Timeline attachment must reuse the existing Job and Artifact.
 - Local paths never enter Reelsy MCP. Upload a completed local file through the media import flow.
 - `set_keyframes` currently accepts numeric channels only. Text and background color animation remains a UI-only capability until the public media contract supports typed color keyframes.
 - Ready generated clips remain separate Canvas Artifacts unless the user requests or confirms editing or combination. Multiple clips alone are not permission to create a Timeline.
