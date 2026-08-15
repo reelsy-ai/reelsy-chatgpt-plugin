@@ -6,7 +6,8 @@ Create and edit Reelsy videos directly from ChatGPT.
 
 - Generate Reelsy videos from natural-language requests and show ready results on Reelsy Canvas.
 - Open Hosted OpenCut for timeline editing only after the user explicitly requests or confirms editing.
-- Generate instrumental music after explicit 12-credit confirmation, or use licensed/uploaded music, then attach it through Hosted OpenCut.
+- Generate a vocal song, rewrite a user-authorized source song, or create instrumental music after explicit 12-credit confirmation.
+- Keep source analysis, lyric rewriting, timed captions, audio replacement, and final video editing under Codex control; Reelsy only performs the paid music generation step.
 - Add captions, hosted fonts, stickers, dynamic visual elements, transitions, and foundational edits.
 - Connect the user's Reelsy account through OAuth without asking for an API key.
 
@@ -25,13 +26,14 @@ Installation, authorization, and tool verification do not create paid Jobs or de
 ```text
 skills/reelsy-video-production
 skills/reelsy-video-editing
+skills/reelsy-song-rewrite
 skills/reelsy-ecommerce-product-ad
 skills/reelsy-ugc-creator-video
 skills/reelsy-motion-clone
 skills/reelsy-narrative-remix
 ```
 
-`reelsy-video-production` and `reelsy-video-editing` provide the two foundational capabilities. The four domain Skills select the appropriate production or editing workflow without bypassing the main-service MCP, OAuth ownership, or credit boundaries.
+`reelsy-video-production` and `reelsy-video-editing` provide the two foundational capabilities. `reelsy-song-rewrite` coordinates Codex-local source analysis, approved lyric rewriting, Reelsy music generation, captions, and final editing. The remaining domain Skills select the appropriate production or editing workflow without bypassing the main-service MCP, OAuth ownership, or credit boundaries.
 
 ## Get started
 
