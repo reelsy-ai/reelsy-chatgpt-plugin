@@ -19,7 +19,7 @@ description: "Edit a Reelsy video project through Hosted OpenCut and owner-scope
 - Treat the latest Timeline Artifact as the persistent source of truth. UI commands are temporary projection controls, not saved edits.
 - Never regenerate a successful video for a Timeline-only change.
 - Use one `apply_reelsy_timeline_transaction` call for each coherent atomic edit and include the latest `expectedRevision` plus a stable `idempotencyKey`.
-- Query managed catalogs before using font, text style, sticker, effect, transition, filter, or music IDs. Never invent IDs or remote asset URLs.
+- Query managed catalogs before using font, text style, sticker, effect, transition, filter, or licensed music IDs. Never invent IDs or remote asset URLs. Generated music must come from a ready owner-scoped `background_music` Artifact.
 - Let Hosted OpenCut render and download the edited project. Do not upload that export, call `publish_reelsy_final`, or write a new Final Artifact back to the Canvas.
 
 ## New User Onboarding
@@ -32,16 +32,17 @@ description: "Edit a Reelsy video project through Hosted OpenCut and owner-scope
 ## Workflow
 
 1. Read the Project with `read_reelsy_project_snapshot` and determine whether a ready Timeline already exists. If the Project is not yet established, let the Production Foundation create or resolve it before continuing.
-2. If no Timeline exists, require confirmed Editing intent, choose the ready video Artifacts in the requested order, and call `submit_reelsy_composition` once to create the initial editable Timeline. Default to `native_only` unless the user requested licensed or user-owned music.
+2. If no Timeline exists, require confirmed Editing intent, choose the ready video Artifacts in the requested order, and call `submit_reelsy_composition` once to create the initial editable Timeline. Default to `native_only` unless the user requested licensed, user-owned, or generated music.
 3. Pass the Required Connector and Editor Gate. Call `read_reelsy_timeline` and `get_reelsy_editor_url`, then open the exact returned URL in the Codex in-app browser. Do not refresh a live editor unless the user explicitly requests a cold-load persistence check.
 4. Query only the catalogs required by the request:
    - `list_reelsy_caption_styles` for caption presets, managed fonts, and owner-scoped uploaded fonts.
    - `list_reelsy_text_styles` for titles, subtitles, lower thirds, offers, badges, quotes, and end cards.
    - `list_reelsy_editor_visual_catalog` for stickers, Atmosphere overlays, audio visualizers, transitions, and filters.
    - `list_reelsy_music` or `list_reelsy_music_library` for licensed audio.
+   - `submit_reelsy_music_generation` for a new instrumental soundtrack. Show the fixed 12-credit cost and wait for explicit confirmation for this generation before calling it. Reuse one stable `idempotencyKey`, poll only with `get_reelsy_job_status`, and use the ready `background_music` Artifact; do not create a Production Plan or call video generation for this request.
    - `create_reelsy_media_import` and `inspect_reelsy_asset` when a local file must become a trusted Project Asset.
    - `submit_reelsy_analysis` and `get_reelsy_job_status` when speech-aligned captions require a trusted transcript from an existing video or audio Artifact.
-5. Build a minimal command batch. Omit `trackId` on inserts when automatic compatible-track placement is preferred; provide it only after reading the Timeline and intentionally targeting that track. Use `copy_reelsy_timeline_selection` followed by `paste_reelsy_timeline_selection` for persistent clipboard semantics.
+5. If a generated soundtrack was requested and is ready, attach its Artifact with `attach_reelsy_soundtrack` using `mode="generated"`; this is a Timeline edit and must reuse the latest Timeline revision. Then build the remaining minimal command batch. Omit `trackId` on inserts when automatic compatible-track placement is preferred; provide it only after reading the Timeline and intentionally targeting that track. Use `copy_reelsy_timeline_selection` followed by `paste_reelsy_timeline_selection` for persistent clipboard semantics.
 6. Apply the transaction. On conflict, read the latest Timeline and rebase the intended change; never overwrite an unknown newer revision.
 7. Read the new revision and use `control_reelsy_editor` to select the changed elements, focus the Timeline, seek the playhead, or open the relevant panel. Use `list_reelsy_editor_sessions`, `read_reelsy_editor_state`, and `read_reelsy_editor_command` when live UI state or acknowledgement matters.
 8. Use `render_reelsy_timeline_frames` for deterministic structural checks and the visible OpenCut Canvas for visual judgment.
@@ -58,7 +59,7 @@ description: "Edit a Reelsy video project through Hosted OpenCut and owner-scope
 - Basic editing: insert assets, move, trim, split, reorder, duplicate, delete, and persistent semantic copy/paste.
 - Text and captions: reuse a trusted transcript when speech alignment is required; insert or rewrite text, choose managed or uploaded fonts, apply full caption styling, and position layers.
 - Visual layers: insert and position stickers; insert or update Atmosphere overlays and audio visualizers; set transitions and filters.
-- Audio: set element volume and pan, track mute/volume/role, attach licensed music, or restore native-only audio.
+- Audio: set element volume and pan, track mute/volume/role, attach licensed, uploaded, or generated instrumental music, or restore native-only audio.
 - Layout and Inspector: update transform, rotation, scale, position, opacity, visibility, mute state, blend mode, and catalog-backed clip effects.
 - Motion and Project settings: replace numeric keyframe channels, set bookmarks, rename the Project, and update FPS, Canvas size, or Canvas background.
 
@@ -71,3 +72,5 @@ Read [the MCP capability map](references/mcp-capability-map.md) before building 
 - Revision conflict: re-read, preserve the newer revision, and reapply only the user's intended delta.
 - Browser session unavailable: preserve persistent Timeline work and reopen OpenCut; never treat the missing UI session as lost Project data.
 - OpenCut export failure: preserve the saved Timeline Revision and retry only the browser export. Do not regenerate media or create a replacement Final pipeline.
+- Generated music succeeded but Timeline attachment failed: preserve the ready `background_music` Artifact, re-read the latest Timeline revision, and retry only `attach_reelsy_soundtrack`. Never submit another paid music Job for an editing conflict.
+- Source video contains narration and old music in one mixed audio track: explain that soundtrack attachment cannot remove only the old music. Do not claim source separation; either mute the mixed native audio with the user's consent or keep it until a separate separation capability exists.
