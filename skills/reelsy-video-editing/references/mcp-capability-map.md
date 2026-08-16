@@ -51,13 +51,41 @@ For timed lyrics, query `list_reelsy_caption_styles`, then pass 1–50 cues to `
   "expectedRevision": 3,
   "captionStyleId": "catalog-style-id",
   "cues": [
-    { "text": "First lyric line", "startTime": 2.8, "duration": 2.98 }
+    {
+      "text": "Let the stars map the night",
+      "startTime": 2.8,
+      "duration": 2.98,
+      "words": [
+        { "text": "Let", "startTime": 0, "duration": 0.24 },
+        { "text": "the stars", "startTime": 0.24, "duration": 0.48 },
+        { "text": "map", "startTime": 0.72, "duration": 0.46 },
+        { "text": "the night", "startTime": 1.18, "duration": 1.8 }
+      ]
+    }
   ],
   "idempotencyKey": "lyrics-batch-1-v1"
 }
 ```
 
-The service creates stable caption element IDs. More than 50 cues require multiple revisions; re-read the latest Timeline before each next batch.
+Word times are relative to the cue start, ordered, non-overlapping, and bounded by cue duration. The service creates stable caption element IDs. More than 50 cues require multiple revisions; re-read the latest Timeline before each next batch. Without trusted `words[]`, the renderer intentionally falls back to static line-timed captions and the Agent must not claim karaoke behavior.
+
+To enrich existing caption elements without recreating the Timeline, use up to 50 `update_element` commands in one transaction and set each element's cue-relative `words`. Pass `words: null` to explicitly remove stale word timing. Re-read the saved revision before visual verification.
+
+## End-to-end assembly and verification
+
+- After an explicit end-to-end request or “continue”, use one continuous authorization envelope for in-scope reversible edits. Keep separate confirmation only for paid generation, rights, publication, destructive actions, unrequested export, or a materially new creative choice.
+- Execute **Structure → Audio → Captions → Structural Verification → Visual Verification**. Timeline is the default deliverable; export is a separate intent.
+- Structural Verification must re-read the saved revision and confirm Canvas, tracks, native mute, soundtrack, caption count/style/timing, and word timing. Visual Verification must inspect the visible OpenCut Canvas at representative active-word times.
+
+## Deterministic local import adapter
+
+After `create_reelsy_media_import`, pass the returned `upload` object over stdin to:
+
+```bash
+node scripts/upload-media.mjs --file /absolute/path/to/media --expected-bytes 123456
+```
+
+The adapter accepts only a non-expired HTTPS PUT descriptor, verifies the exact local size and upload limit, streams the file once, and never prints the presigned URL. Then finalize with `inspect_reelsy_asset`. Do not replace this with ad hoc shell upload code or the browser file picker.
 
 ## Persistent Timeline transaction commands
 
@@ -110,7 +138,7 @@ Use `list_reelsy_editor_sessions` to choose a live owner-scoped browser session,
 - Licensed and uploaded music must use a registered owner-scoped Artifact with valid rights metadata. A generated instrumental soundtrack uses `background_music`; a vocal or rewritten song uses `generated_song`. Never pass a Provider URL or task ID into a Timeline or local edit.
 - Music generation costs 12 credits. Display the approved lyrics and settings when applicable, obtain explicit confirmation for that exact generation, and reuse the existing Job and Artifact during polling or later Codex processing.
 - Reelsy generation does not analyze source music, write lyrics, build captions, or edit video. Those steps remain Codex responsibilities under `$reelsy-song-rewrite`.
-- Local paths never enter Reelsy MCP. Upload a completed local file through the media import flow.
+- Local paths never enter Reelsy MCP. Upload a completed local file through the bundled deterministic media import adapter, then finalize the Source Artifact through the media import flow.
 - `set_keyframes` currently accepts numeric channels only. Text and background color animation remains a UI-only capability until the public media contract supports typed color keyframes.
 - Ready generated clips remain separate Canvas Artifacts unless the user requests or confirms editing or combination. Multiple clips alone are not permission to create a Timeline.
 - Hosted OpenCut owns preview and browser export for edited projects. A downloaded export remains local; do not upload it, call `publish_reelsy_final`, or create a Canvas Final Artifact.
