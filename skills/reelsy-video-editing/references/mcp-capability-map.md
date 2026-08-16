@@ -17,9 +17,47 @@
 | Generate an owner-scoped vocal song or source-audio rewrite after lyrics, rights, and 12-credit confirmation | `submit_reelsy_music_generation`, then `get_reelsy_job_status` |
 | Generate a legacy owner-scoped instrumental soundtrack after explicit 12-credit confirmation | `submit_reelsy_music_generation`, then `get_reelsy_job_status` |
 | Attach a ready licensed, uploaded, or generated soundtrack | `attach_reelsy_soundtrack` |
+| Change Canvas ratio and center video elements | `reframe_reelsy_timeline` |
+| Insert 1–50 timed captions or lyric cues | `insert_reelsy_captions` |
 | Inspect deterministic frame structure | `render_reelsy_timeline_frames` |
 | Import a local media or font file | `create_reelsy_media_import`, then `inspect_reelsy_asset` |
 | Produce a trusted transcript for timed captions | `submit_reelsy_analysis`, then `get_reelsy_job_status` and `read_reelsy_project_snapshot` |
+
+## Strongly typed common edits
+
+Prefer these tools over generic command construction:
+
+```json
+{
+  "projectId": "project-from-read",
+  "timelineArtifactId": "timeline-from-read",
+  "expectedRevision": 1,
+  "canvas": { "width": 1080, "height": 1920 },
+  "layout": "cover_center",
+  "idempotencyKey": "vertical-cover-v1"
+}
+```
+
+Pass that shape to `reframe_reelsy_timeline`. Use `contain_center` only when letterboxing is acceptable.
+
+For full replacement with a ready vocal song, pass its `generated_song` Artifact to `attach_reelsy_soundtrack` with `mode="generated"`, `volume=1`, and `muteNativeAudio=true`. This mutes every video track because mixed source audio cannot be separated by the Timeline tool. Keep `muteNativeAudio=false` when the source audio must remain.
+
+For timed lyrics, query `list_reelsy_caption_styles`, then pass 1–50 cues to `insert_reelsy_captions`:
+
+```json
+{
+  "projectId": "project-from-read",
+  "timelineArtifactId": "latest-timeline-from-read",
+  "expectedRevision": 3,
+  "captionStyleId": "catalog-style-id",
+  "cues": [
+    { "text": "First lyric line", "startTime": 2.8, "duration": 2.98 }
+  ],
+  "idempotencyKey": "lyrics-batch-1-v1"
+}
+```
+
+The service creates stable caption element IDs. More than 50 cues require multiple revisions; re-read the latest Timeline before each next batch.
 
 ## Persistent Timeline transaction commands
 
@@ -33,6 +71,17 @@ Use these command types inside `apply_reelsy_timeline_transaction`:
 - `set_keyframes` for numeric transform, opacity, volume, and text-background animation channels.
 - `set_bookmarks` and `update_project_settings` for Timeline markers, Project name, FPS, Canvas size, and Canvas background.
 - `set_soundtrack` for an already registered licensed soundtrack or `native_only`.
+
+The public schema is a `type`-discriminated union. Common command shapes are:
+
+```json
+{ "type": "update_project_settings", "canvas": { "width": 1080, "height": 1920 } }
+{ "type": "update_track", "trackId": "track-from-read", "muted": true, "volume": 0 }
+{ "type": "update_transform", "trackId": "track-from-read", "elementId": "element-from-read", "scale": 2.3703703704, "x": 0, "y": 0 }
+{ "type": "insert_asset", "assetId": "trusted-timeline-asset-id", "elementId": "new-element-id", "startTime": 0, "duration": 5 }
+```
+
+`insert_asset` accepts only an Asset already trusted by the Timeline. Use `attach_reelsy_soundtrack` for an owner-scoped `background_music` or `generated_song` Artifact that is not yet a Timeline Asset. A transaction accepts 1–50 commands. Never send an empty command array or an empty `replace_timeline` to discover the schema.
 
 Use `copy_reelsy_timeline_selection` followed by `paste_reelsy_timeline_selection` when explicit clipboard semantics are useful. The paste operation creates an immutable Timeline revision and survives refresh.
 

@@ -22,12 +22,14 @@ description: "Rewrite a lyric-bearing song from a user-provided video or audio r
 6. Call `submit_reelsy_music_generation` once with `mode="rewrite_song"`, the ready `sourceAudioArtifactId`, approved `lyrics`, `title`, `style`, optional `vocalGender`, `melodyPreservation`, `sourceRightsConfirmed=true`, `expectedCredits=12`, and one stable `idempotencyKey`. For a new song without a source melody, use `mode="original_song"` and omit the source fields.
 7. Poll only with `get_reelsy_job_status`. On success, use the ready `generated_song` Artifact. Never expose or reuse a Provider task ID, Provider URL, storage key, or raw callback payload.
 8. Finish outside Reelsy generation: download or consume the persisted song, use its `timedLyrics` when available, locally align any missing timing, replace or mix the video audio, create lyric captions, and verify the final media. Do not call another paid music Job because captioning or local video editing failed.
+9. When the user also requested an editable Reelsy video, hand the ready `generated_song` and timed lyric cues to `$reelsy-video-editing`: reframe with `reframe_reelsy_timeline`, attach the song with `attach_reelsy_soundtrack` using `mode="generated"` and `volume=1`, and insert no more than 50 cues per revision with `insert_reelsy_captions`. Use `muteNativeAudio=true` only when the user approved full replacement of mixed source audio.
 
 ## Completion Contract
 
 - The approved lyrics and generation settings are visible to the user before charging.
 - One successful paid Job produces one reusable owner-scoped `generated_song` Artifact.
 - Codex, not Reelsy generation, completes subtitle construction and final video editing.
+- A requested editable-video handoff reuses the existing `generated_song`; Timeline or caption failures never create another paid Job.
 - If the user requested only the song, finish when the generated song is ready and accessible; do not create a video or Timeline.
 
 ## Failure Rules
