@@ -1,6 +1,6 @@
 ---
 name: reelsy-video-production
-description: "Generate one or more paid AI video assets through Reelsy and show the ready results on the Project Canvas. Use when a user asks to create, generate, recreate, or produce new video media. Choose the fewest valid clips; keep ready clips separate by default, and route to Reelsy Video Editing only when the user already requested editing or combination, or confirms it after seeing multiple results."
+description: "Generate paid AI image or video assets through Reelsy and show the ready results on the Project Canvas. Use when a user asks to create, generate, recreate, or produce new visual media. Choose the fewest valid image Jobs or video clips; keep ready assets separate by default, and route to Reelsy Video Editing only when the user already requested editing or combination, or confirms it after seeing multiple results."
 ---
 
 # Reelsy Video Production
@@ -14,7 +14,7 @@ description: "Generate one or more paid AI video assets through Reelsy and show 
 
 ## Boundaries
 
-- Treat ready generated video Artifacts that are visible on the Project Canvas as the default completion condition.
+- Treat ready generated image or video Artifacts that are visible on the Project Canvas as the default completion condition.
 - Do not create a Timeline or open Hosted OpenCut merely because generation returned more than one clip.
 - Route to `$reelsy-video-editing` only when the user explicitly requested editing or combination, or confirms that choice after generation. Do not ask again when the original request already made that intent clear.
 - Show the estimated credit cost and obtain explicit confirmation before paid generation. Reuse stable business idempotency keys on retry.
@@ -25,7 +25,7 @@ description: "Generate one or more paid AI video assets through Reelsy and show 
 
 - Treat a natural-language request such as “make this into a short video” as sufficient to begin. Never ask a new user to name a Skill, MCP tool, Project ID, OAuth scope, or URL.
 - After the Connector and Canvas Gate passes, resolve or create one owner-scoped Project from the request, then surface the exact Project Canvas handoff before long-running analysis or paid generation. The user should be able to see where work will appear.
-- Explain the available path in plain language: Reelsy can generate one or more clips, keep ready clips visible on the Canvas, and optionally open Hosted OpenCut for captions, music, stickers, effects, trimming, ordering, or combination. Ask only for load-bearing choices that cannot be inferred from the request or supplied media.
+- Explain the available path in plain language: Reelsy can generate images or video clips, keep ready assets visible on the Canvas, and optionally open Hosted OpenCut for captions, music, stickers, effects, trimming, ordering, or combination. Ask only for load-bearing choices that cannot be inferred from the request or supplied media.
 - If authorization is missing, preserve the original request and tell the user to connect Reelsy in plain language. Do not ask them to repeat the brief after authorization; the host may resume it in the same task or a continuation task.
 - A setup or authorization turn is not a production approval. Do not create paid Jobs, import private media, or modify a Timeline until the Connector gate and the user's production intent are both ready.
 
@@ -33,16 +33,17 @@ description: "Generate one or more paid AI video assets through Reelsy and show 
 
 1. Pass the Required Connector and Canvas Gate. Use `list_reelsy_projects`, `create_reelsy_project`, or `read_reelsy_project_snapshot` to resolve the owner-scoped Project; create a Project when a new user has no target. Get its visible handoff with `get_reelsy_project_url` and open that exact validated URL in the Codex in-app browser before lengthy work.
 2. Import and inspect user media with `create_reelsy_media_import` and `inspect_reelsy_asset` when required. Use returned Artifacts as evidence; do not invent unseen product, identity, motion, or narrative facts.
-3. Convert the request or active Domain Skill result into a compact production intent: objective, aspect ratio, target duration, continuity anchors, ordered beats, audio policy, and completion criteria. Reuse a `production_plan` returned by `submit_reelsy_analysis` for source-grounded work; otherwise create a zero-credit direct plan with `create_reelsy_production_plan`.
-4. Pack adjacent beats into the fewest clips that the selected provider can execute without breaking scene, subject, wardrobe, product, time, or camera continuity. One clip is valid; longer or discontinuous stories may require more.
-5. Estimate paid generation from the actual targets and ask for confirmation. Then call `submit_reelsy_generation` once per target with stable, distinct idempotency keys.
-6. Poll each Job with `get_reelsy_job_status`. Preserve ready `generated_clip` Artifacts and retry only failed targets.
-7. Read the Project snapshot again and verify that every requested ready clip is visible on the Canvas.
-8. Apply the handoff decision below. Do not render, upload, publish, or create a Timeline unless the confirmed Editing path requires one.
+3. Choose the image path when the requested deliverable is a still image or image set. Choose the video path when motion is required. Do not create a video Production Plan for an image-only request.
+4. For images, infer or ask only for the prompt, aspect ratio, resolution, quality, and requested count. Use `text_to_image` without references. Use `image_to_image` only with ready owner-scoped Project image Artifacts. One Job can request 1–4 variants and has a fixed 2-credit cost; show the actual Job count and total cost, obtain explicit confirmation, then call `submit_reelsy_image_generation` with `expectedCredits=2` and one stable idempotency key per Job.
+5. For video, convert the request or active Domain Skill result into a compact production intent: objective, aspect ratio, target duration, continuity anchors, ordered beats, audio policy, and completion criteria. Reuse a `production_plan` returned by `submit_reelsy_analysis` for source-grounded work; otherwise create a zero-credit direct plan with `create_reelsy_production_plan`.
+6. Pack adjacent beats into the fewest clips that the selected provider can execute without breaking scene, subject, wardrobe, product, time, or camera continuity. One clip is valid; longer or discontinuous stories may require more. Estimate the actual video cost, obtain explicit confirmation, then call `submit_reelsy_generation` once per target with stable, distinct idempotency keys.
+7. Poll every image or video Job with `get_reelsy_job_status`. Preserve ready `generated_image` and `generated_clip` Artifacts and retry only failed targets.
+8. Read the Project snapshot again and verify that every requested ready asset is visible on the Canvas.
+9. Apply the handoff decision below. Do not render, upload, publish, or create a Timeline unless the confirmed Editing path requires one.
 
 ## Editing Handoff
 
-- One ready clip with no deterministic edit request: stop after the Canvas result is visible.
+- Ready images or one ready clip with no deterministic edit request: stop after the Canvas result is visible.
 - Any number of clips with an explicit request for trimming, captions, titles, stickers, visualizers, overlays, transitions, filters, music, ordering, or combination: continue with `$reelsy-video-editing` without another confirmation.
 - Multiple ready clips with no explicit combination request: keep every clip visible on the Canvas and ask whether to keep them separate or combine them in Hosted OpenCut.
 - Continue with `$reelsy-video-editing` only after the user chooses OpenCut. Keeping separate clips is a complete result.
