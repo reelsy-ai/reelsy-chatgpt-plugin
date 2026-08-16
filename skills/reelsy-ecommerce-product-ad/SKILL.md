@@ -21,6 +21,11 @@ description: "Plan and produce evidence-grounded ecommerce product asset suites 
 6. Ask progressively for optional inputs only when they materially improve a planned deliverable: brand assets for branded layouts, offer details for promotional creatives, or exact specifications for specification panels.
 7. For regulated, safety-critical, medical, financial, ingredient, origin, certification, or performance claims, require a reliable user-provided or source-backed fact. User approval alone does not turn an unsupported regulated claim into evidence.
 
+### Connector and Browser Boundary
+
+- Do not invoke a browser search, dashboard inspection, or generic Agent workspace from this Domain Skill. Authentication is handled by `$reelsy-video-production` through the Reelsy OAuth MCP Connector.
+- If the Foundation Skill reports missing MCP tools or an unauthenticated Connector, stop and follow its onboarding flow. Preserve the product request and supplied image; do not continue with browser-only work or ask the user to restate the brief.
+
 ## Evidence and Selling Angles
 
 - Separate observable facts, source-backed facts, proposed marketing angles, and unsupported claims.

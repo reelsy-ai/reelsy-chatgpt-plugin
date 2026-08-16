@@ -1,6 +1,6 @@
 {
   "name": "reelsy-video",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "description": "Create Canvas-visible Reelsy product images, ecommerce asset suites, videos, and owner-scoped music, then let Codex complete requested editing workflows.",
   "author": {
     "name": "Reelsy",
@@ -17,7 +17,7 @@
   "interface": {
     "displayName": "Reelsy for ChatGPT",
     "shortDescription": "Create product images and videos with Reelsy",
-    "longDescription": "Connect ChatGPT to owner-scoped Reelsy projects through the production OAuth MCP. Reelsy creates paid product images, ecommerce asset suites, videos, and music after explicit cost confirmation. Codex plans selling directions, coordinates generation, verifies Canvas results, and completes requested editing. OpenCut browser exports remain local and do not create Canvas Final Artifacts.",
+    "longDescription": "Connect ChatGPT to owner-scoped Reelsy projects through the production OAuth MCP. The Codex in-app browser is used only for OAuth consent and the exact Project Canvas handoff returned by MCP. Reelsy creates paid product images, ecommerce asset suites, videos, and music after explicit cost confirmation. Codex plans selling directions, coordinates generation, verifies Canvas results, and completes requested editing. OpenCut browser exports remain local and do not create Canvas Final Artifacts.",
     "developerName": "Reelsy",
     "category": "Design",
     "capabilities": [

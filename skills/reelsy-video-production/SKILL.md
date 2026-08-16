@@ -12,6 +12,13 @@ description: "Generate paid AI image or video assets through Reelsy and show the
 - After resolving the Project, call `get_reelsy_project_url`. Open only the exact returned URL, and only when `surface` is `codex_project_canvas`, the returned `projectId` matches the resolved Project, and the URL `project` query parameter contains that same ID.
 - Never construct or rewrite the handoff URL. Never open a generic `/dashboard/autonomous-video-agent` route without `project`, and never substitute `reelsy.ai` for `localhost` or `localhost` for `reelsy.ai`.
 
+## Authentication-first Browser Contract
+
+- The Codex in-app browser is an OAuth and user-visible Canvas surface, not a Reelsy discovery API. Do not use it to search for Reelsy, infer login state, inspect dashboard links, or replace missing MCP tools with DOM exploration.
+- When the current task lacks the Reelsy MCP tools, stop before opening any Reelsy page and follow the Connector onboarding reference. The bundled `mcp login reelsy` flow must initiate the in-app OAuth page; do not navigate manually to a dashboard, Agent workspace, or guessed authorization URL.
+- After OAuth completes and the task has a fresh MCP snapshot, call `connector_status` first. Only a ready Connector may proceed to Project tools and the exact `get_reelsy_project_url` handoff.
+- The only allowed Reelsy browser destinations are the OAuth page launched by the bundled login flow and the exact owner-scoped Canvas URL returned by MCP. Any generic Agent/workspace URL, URL without a matching `project` query, or page reached before `connector_status` is a hard failure; stop and preserve the original request.
+
 ## Boundaries
 
 - Treat ready generated image or video Artifacts that are visible on the Project Canvas as the default completion condition.

@@ -12,10 +12,13 @@ Use this reference when the Reelsy MCP tools are missing from the current task o
 
 - Resolve the Codex Desktop bundled CLI from the host environment; never use an unrelated `codex` binary from `PATH` when a bundled path is available.
 - Run the bundled CLI's `mcp login reelsy` flow one attempt at a time and let the user complete the normal Reelsy OAuth page if the browser asks for consent.
+- The bundled login flow is the only way to start Reelsy OAuth. It opens the Codex in-app browser on the Reelsy authorization page at `/api/codex/oauth/authorize`; do not navigate to that path manually and do not use a dashboard or Agent page to test authentication.
+- While authorization is pending, the in-app browser may show only the OAuth consent page. Do not inspect or follow Reelsy dashboard links before the fresh task can call `connector_status`.
 - Verify the same bundled CLI reports the `reelsy` MCP server enabled with `mcp get reelsy --json` and `mcp list --json`. Do not treat a configured URL alone as proof of authorization.
 - When setup succeeds but the current task still lacks Reelsy tools, use the Codex host's thread-creation and navigation capability to create one new top-level task in the same workspace. Put the original natural-language request and the marker `reelsy_onboarding_handoff=1` in the new task's initial message; do not ask the user to repeat it or type a technical “continue” command.
 - In a task carrying `reelsy_onboarding_handoff=1`, do not run `mcp login reelsy` again and do not create another task. If Reelsy tools are still absent, stop before any browser or Project action and tell the user: “The Reelsy connection is complete, but this Codex window has not refreshed its tools yet. Restart Codex, then reopen the Reelsy task. Your original request will remain available.”
 - The setup task is complete only after it reports the new task handoff. It must not generate video, import private media, modify a Timeline, or spend credits.
+- A task that opens `/dashboard/autonomous-video-agent` without a validated `project` query, or that reports dashboard/workspace discovery before `connector_status`, has failed the onboarding contract. Stop it and restart from the bundled login flow.
 - If the host cannot run the bundled CLI or create a new task, tell the user in plain language that Reelsy connection needs to be completed in a newly opened Reelsy task. Never claim the current task can continue with tools it does not have.
 
 ## User-facing language

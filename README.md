@@ -50,7 +50,7 @@ The repository includes a Marketplace manifest at `.agents/plugins/marketplace.j
 
 If your host only exposes the single-plugin installer, use **Add plugin** with the same repository URL and leave the ref/path fields at their defaults.
 
-After installation, copy the following prompt into a new task in ChatGPT Desktop:
+After installation, copy the following prompt into a new task in ChatGPT Desktop. The Reelsy Connector must complete OAuth before the Agent opens a Project Canvas; the in-app browser must not be used to search for a generic Reelsy workspace:
 
 ```text
 /goal Read reelsy.ai/chatgpt to install the Reelsy plugin, connect my Reelsy account, and start a new video creation task for me.

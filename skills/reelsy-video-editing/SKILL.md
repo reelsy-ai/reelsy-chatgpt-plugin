@@ -11,6 +11,11 @@ description: "Edit a Reelsy video project through Hosted OpenCut and owner-scope
 - Let this Foundation Skill own Connector authorization, Project resolution, and Hosted OpenCut bootstrap for every Domain Skill that routes here.
 - Call `get_reelsy_editor_url` only after resolving the Project and Timeline. Open only the exact returned URL for that Project. Never construct, rewrite, or replace it with a generic Reelsy Agent URL, and never switch between `localhost` and `reelsy.ai`.
 
+## Authentication-first Browser Contract
+
+- The in-app browser is only for the OAuth page launched by the bundled Connector login and the exact owner-scoped editor URL returned by MCP. It is not a fallback API for discovering Reelsy pages or checking whether a user is logged in.
+- If MCP tools are missing or `connector_status` is not ready, stop before opening a Reelsy dashboard or generic Agent workspace and follow the Connector onboarding reference. Do not inspect DOM links, guess an editor URL, or ask the user to repeat the editing brief.
+
 ## Boundaries
 
 - Enter Hosted OpenCut only after the user explicitly requests editing or combination, or confirms an Editing handoff proposed by Production.
