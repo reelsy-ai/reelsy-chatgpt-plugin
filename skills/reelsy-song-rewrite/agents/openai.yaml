@@ -1,7 +1,7 @@
 interface:
   display_name: "Reelsy Song Rewrite"
-  short_description: "Rewrite lyric songs from source video audio"
-  default_prompt: "Use $reelsy-song-rewrite to rewrite the song in my video with approved lyrics and finish the video locally."
+  short_description: "Rewrite lyric songs and reuse them in video edits"
+  default_prompt: "Use $reelsy-song-rewrite to rewrite the song in my video with approved lyrics, then reuse the generated song in the requested caption and video-editing workflow."
 
 policy:
   allow_implicit_invocation: true
