@@ -1,10 +1,11 @@
 # Reelsy for ChatGPT
 
-Create and edit Reelsy videos directly from ChatGPT.
+Create Reelsy product images, ecommerce asset suites, and videos directly from ChatGPT.
 
 ## Capabilities
 
-- Generate Reelsy videos from natural-language requests and show ready results on Reelsy Canvas.
+- Generate Reelsy images or videos from natural-language requests and show ready results on Reelsy Canvas.
+- Plan coordinated ecommerce packages with gallery images, product detail panels, and a product video while preserving product identity and verified claims.
 - Open Hosted OpenCut for timeline editing only after the user explicitly requests or confirms editing.
 - Generate a vocal song, rewrite a user-authorized source song, or create instrumental music after explicit 12-credit confirmation.
 - Keep source analysis, lyric rewriting, timed captions, audio replacement, and final video editing under Codex control; Reelsy only performs the paid music generation step.

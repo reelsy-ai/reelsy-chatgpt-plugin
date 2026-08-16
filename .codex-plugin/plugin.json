@@ -1,7 +1,7 @@
 {
   "name": "reelsy-video",
   "version": "0.4.6",
-  "description": "Create Canvas-visible Reelsy videos and owner-scoped vocal or instrumental music, then let Codex complete the requested editing workflow.",
+  "description": "Create Canvas-visible Reelsy product images, ecommerce asset suites, videos, and owner-scoped music, then let Codex complete requested editing workflows.",
   "author": {
     "name": "Reelsy",
     "url": "https://reelsy.ai"
@@ -16,8 +16,8 @@
   ],
   "interface": {
     "displayName": "Reelsy for ChatGPT",
-    "shortDescription": "Create and edit Reelsy videos from ChatGPT",
-    "longDescription": "Connect ChatGPT to owner-scoped Reelsy projects through the production OAuth MCP. Reelsy performs paid video and music generation with explicit cost confirmation, including vocal-song generation and source-audio song rewriting. Codex remains responsible for source analysis, lyric rewriting, captions, and final editing. OpenCut browser exports remain local and do not create Canvas Final Artifacts.",
+    "shortDescription": "Create product images and videos with Reelsy",
+    "longDescription": "Connect ChatGPT to owner-scoped Reelsy projects through the production OAuth MCP. Reelsy creates paid product images, ecommerce asset suites, videos, and music after explicit cost confirmation. Codex plans selling directions, coordinates generation, verifies Canvas results, and completes requested editing. OpenCut browser exports remain local and do not create Canvas Final Artifacts.",
     "developerName": "Reelsy",
     "category": "Design",
     "capabilities": [
@@ -26,6 +26,7 @@
     ],
     "websiteURL": "https://reelsy.ai",
     "defaultPrompt": [
+      "Plan an ecommerce suite with product images, detail panels, and video",
       "Generate a Reelsy video with the fewest valid clips",
       "Rewrite the song in my video with new approved lyrics",
       "Edit my Reelsy timeline with captions and visual layers"

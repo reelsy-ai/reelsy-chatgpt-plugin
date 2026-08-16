@@ -1,4 +1,4 @@
 interface:
-  display_name: "Reelsy Ecommerce Video"
-  short_description: "Plan product-focused ecommerce videos"
-  default_prompt: "Use $reelsy-ecommerce-product-ad to create a product-focused Reelsy video."
+  display_name: "Reelsy Ecommerce Suite"
+  short_description: "Plan product images, detail panels, and video"
+  default_prompt: "Use $reelsy-ecommerce-product-ad to plan and produce a Reelsy ecommerce asset suite from my product evidence."
