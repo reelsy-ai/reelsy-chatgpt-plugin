@@ -1,4 +1,4 @@
 interface:
   display_name: "Reelsy Ecommerce Suite"
-  short_description: "Plan product images, detail panels, and video"
-  default_prompt: "Use $reelsy-ecommerce-product-ad to plan and produce a Reelsy ecommerce asset suite from my product evidence."
+  short_description: "Build verified product images, detail panels, and video"
+  default_prompt: "Use $reelsy-ecommerce-product-ad to extract product facts, confirm a detail-page plan, and produce my Reelsy ecommerce assets."
