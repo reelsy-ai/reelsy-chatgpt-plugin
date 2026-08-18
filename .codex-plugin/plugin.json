@@ -1,6 +1,6 @@
 {
   "name": "reelsy-video",
-  "version": "0.4.8",
+  "version": "0.4.9",
   "description": "Create Canvas-visible Reelsy product images, ecommerce asset suites, videos, and owner-scoped music, then let Codex complete requested editing workflows.",
   "author": {
     "name": "Reelsy",

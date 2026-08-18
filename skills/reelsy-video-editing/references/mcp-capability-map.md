@@ -16,12 +16,14 @@
 | Discover licensed library music | `list_reelsy_music_library` |
 | Generate an owner-scoped vocal song or source-audio rewrite after lyrics, rights, and 12-credit confirmation | `submit_reelsy_music_generation`, then `get_reelsy_job_status` |
 | Generate a legacy owner-scoped instrumental soundtrack after explicit 12-credit confirmation | `submit_reelsy_music_generation`, then `get_reelsy_job_status` |
+| Transcribe a ready Project video or audio Artifact after explicit 1-credit confirmation | `submit_reelsy_transcription` |
+| Generate a voiceover from approved text and a managed voice preset after explicit 3-credit confirmation | `submit_reelsy_voice_generation` |
 | Attach a ready licensed, uploaded, or generated soundtrack | `attach_reelsy_soundtrack` |
 | Change Canvas ratio and center video elements | `reframe_reelsy_timeline` |
 | Insert 1–50 timed captions or lyric cues | `insert_reelsy_captions` |
 | Inspect deterministic frame structure | `render_reelsy_timeline_frames` |
 | Import a local media or font file | `create_reelsy_media_import`, then `inspect_reelsy_asset` |
-| Produce a trusted transcript for timed captions | `submit_reelsy_analysis`, then `get_reelsy_job_status` and `read_reelsy_project_snapshot` |
+| Produce a trusted transcript for timed captions | `submit_reelsy_transcription`, then `read_reelsy_project_snapshot` |
 
 ## Strongly typed common edits
 
@@ -40,7 +42,7 @@ Prefer these tools over generic command construction:
 
 Pass that shape to `reframe_reelsy_timeline`. Use `contain_center` only when letterboxing is acceptable.
 
-For full replacement with a ready vocal song, pass its `generated_song` Artifact to `attach_reelsy_soundtrack` with `mode="generated"`, `volume=1`, and `muteNativeAudio=true`. This mutes every video track because mixed source audio cannot be separated by the Timeline tool. Keep `muteNativeAudio=false` when the source audio must remain.
+For full replacement with a ready vocal song or `voiceover`, pass its Artifact to `attach_reelsy_soundtrack` with `mode="generated"`, `volume=1`, and `muteNativeAudio=true`. This mutes every video track because mixed source audio cannot be separated by the Timeline tool. Keep `muteNativeAudio=false` when the source audio must remain.
 
 For timed lyrics, query `list_reelsy_caption_styles`, then pass 1–50 cues to `insert_reelsy_captions`:
 
