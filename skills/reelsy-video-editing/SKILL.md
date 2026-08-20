@@ -55,7 +55,8 @@ description: "Edit a Reelsy video project through Hosted OpenCut and owner-scope
    - `submit_reelsy_music_generation` with `mode="instrumental"` only for a legacy instrumental soundtrack. Show the fixed 12-credit cost and wait for explicit confirmation for this generation before calling it. Reuse one stable `idempotencyKey`, poll only with `get_reelsy_job_status`, and use the ready `background_music` Artifact. Use `$reelsy-song-rewrite` instead when lyrics or a source melody are involved.
    - `create_reelsy_media_import` and `inspect_reelsy_asset` when a local file must become a trusted Project Asset. Use the bundled deterministic upload adapter described below; do not improvise a `curl`, Python, or browser-picker upload path.
    - `submit_reelsy_transcription` when speech-aligned captions require a trusted transcript from an existing video or audio Artifact. Show the fixed 1-credit cost and wait for explicit confirmation before calling it with `expectedCredits=1`; use the returned `transcript` Artifact and its `words[]`/`segments[]`.
-   - `submit_reelsy_voice_generation` when the user requests narration or a voice replacement. Show the exact approved text, voice preset, and fixed 3-credit cost before calling it with `expectedCredits=3`; use the returned `voiceover` Artifact and never expose Provider errors or raw storage details.
+   - `list_reelsy_tts_voices` before choosing narration. Treat its returned official Gemini voice list and legacy aliases as the only valid choices; do not rely on a stale hard-coded list.
+   - `submit_reelsy_voice_generation` when the user requests narration or a voice replacement. Use a voice returned by `list_reelsy_tts_voices`, show the exact approved text, selected voice, and fixed 3-credit cost before calling it with `expectedCredits=3`; use the returned `voiceover` Artifact and never expose Provider errors or raw storage details.
 5. Apply the requested structure first, then audio, then captions. Prefer the strongly typed editing tools for common workflows:
    - Use `reframe_reelsy_timeline` for Canvas ratio changes and centered cover/contain reframing.
    - Use `attach_reelsy_soundtrack` for licensed/uploaded music, `background_music`, `generated_song`, or a generated `voiceover`. For a voice replacement, use `mode="generated"`, `volume=1`, and `muteNativeAudio=true` only when fully muting mixed source audio is part of the approved request; do not ask for the same mechanical approval twice.
@@ -82,6 +83,10 @@ description: "Edit a Reelsy video project through Hosted OpenCut and owner-scope
 - Do not claim karaoke, active-word color, shadow, or placement from preset metadata alone. Verify the rendered Canvas at a time where a word is active.
 
 ## Persistent Editing Capabilities
+
+### Official Gemini TTS voices
+
+`submit_reelsy_voice_generation` accepts the 30 official `gemini-3.1-flash-tts-preview` voices directly: `Zephyr`, `Puck`, `Charon`, `Kore`, `Fenrir`, `Leda`, `Orus`, `Aoede`, `Callirrhoe`, `Autonoe`, `Enceladus`, `Iapetus`, `Umbriel`, `Algieba`, `Despina`, `Erinome`, `Algenib`, `Rasalgethi`, `Laomedeia`, `Achernar`, `Alnilam`, `Schedar`, `Gacrux`, `Pulcherrima`, `Achird`, `Zubenelgenubi`, `Vindemiatrix`, `Sadachbia`, `Sadaltager`, and `Sulafat`. Legacy managed presets remain accepted.
 
 - Basic editing: insert assets, move, trim, split, reorder, duplicate, delete, and persistent semantic copy/paste.
 - Text and captions: reuse a trusted transcript when speech alignment is required; insert or rewrite text, choose managed or uploaded fonts, apply full caption styling, and position layers.

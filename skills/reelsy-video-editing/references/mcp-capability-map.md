@@ -17,7 +17,8 @@
 | Generate an owner-scoped vocal song or source-audio rewrite after lyrics, rights, and 12-credit confirmation | `submit_reelsy_music_generation`, then `get_reelsy_job_status` |
 | Generate a legacy owner-scoped instrumental soundtrack after explicit 12-credit confirmation | `submit_reelsy_music_generation`, then `get_reelsy_job_status` |
 | Transcribe a ready Project video or audio Artifact after explicit 1-credit confirmation | `submit_reelsy_transcription` |
-| Generate a voiceover from approved text and a managed voice preset after explicit 3-credit confirmation | `submit_reelsy_voice_generation` |
+| Generate a voiceover from approved text and an official Gemini TTS voice (or legacy preset) after explicit 3-credit confirmation | `submit_reelsy_voice_generation` |
+| Discover official Gemini TTS voices and legacy aliases without charging credits | `list_reelsy_tts_voices` |
 | Attach a ready licensed, uploaded, or generated soundtrack | `attach_reelsy_soundtrack` |
 | Change Canvas ratio and center video elements | `reframe_reelsy_timeline` |
 | Insert 1–50 timed captions or lyric cues | `insert_reelsy_captions` |
